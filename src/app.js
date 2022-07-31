@@ -39,7 +39,10 @@ const shaderMaterial = new THREE.ShaderMaterial({
       value: 0
     },
 
-    uResolution: { type: 'v2', value: new THREE.Vector2() }
+    uResolution: { type: 'v2', value: new THREE.Vector2() },
+    uValueA: {
+      value: {x: 0, y: 0, z: 1}
+    }
 
   }
 })
@@ -161,18 +164,64 @@ gtlfLoader.load(
   }
 )
 
+let tempColor = new THREE.MeshBasicMaterial({color: 0x0101fd })
+let tempColor2 = new THREE.MeshBasicMaterial({color: 0x30303a })
+
+
+let colors = [0xfff001, 0xff0101, 0x0101fd	,0xf9f9f9	, 0x30303a ]
+
+
+function colorChange(){
+    let color =  colors[Math.floor(Math.random() * colors.length)]
+    let color2 =  colors[Math.floor(Math.random() * colors.length)]
+    let color3 =  colors[Math.floor(Math.random() * colors.length)]
+    light.color.setHex(color)
+    cone.material.color.setHex(color)
+    tempColor.color.setHex(color2)
+    tempColor2.color.setHex(color3)
+    cone.material.specular.setHex(color)
+    titular.style.color = tempColor2.color.getStyle()
+    shaderMaterial.uniforms.uValueA.value = {x: tempColor.color.toArray()[0] , y: tempColor.color.toArray()[1] , z: tempColor.color.toArray()[2] }
+
+}
 
 let titular = document.getElementById('titular')
 
-console.log(titular)
+let change = false
+
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    if (evt.keyCode === 27) {
+      change = !change
+    }
+};
+
 titular.addEventListener('click', function (e) {
-  console.log(sceneGroup.rotation.y)
+
+
+
+  console.log({x: cone.material.color.toArray()[0] /255, y: cone.material.color.toArray()[1] , z: cone.material.color.toArray()[2] })
+
+
   if(sceneGroup.rotation.y < 0.001 || sceneGroup.rotation.y === 0){
-  gsap.to(sceneGroup.rotation, {duration: 1, y: sceneGroup.rotation.y + Math.PI * 1, repeat: 0, ease: "none"});
+  gsap.to(sceneGroup.rotation, {duration: 2, y: sceneGroup.rotation.y + Math.PI * 1, repeat: 0, ease: "none"});
+  if(change){
+    colorChange()
+  }
+
+  //colorChange()
+
+
 }
 
 if(sceneGroup.rotation.y === 3.141593){
-gsap.to(sceneGroup.rotation, {duration: 1, y: sceneGroup.rotation.y - Math.PI * 1, repeat: 0, ease: "none"});
+gsap.to(sceneGroup.rotation, {duration: 2, y: sceneGroup.rotation.y - Math.PI * 1, repeat: 0, ease: 'none'});
+//colorChange()
+if(change){
+  colorChange()
+}
+
+
 }
 });
 

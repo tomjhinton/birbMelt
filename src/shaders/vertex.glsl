@@ -8,7 +8,7 @@ uniform vec2 uFrequency;
 uniform vec3 uPosition;
 uniform vec3 uRotation;
 uniform vec2 uResolution;
-uniform float uValueA;
+
 
 
 vec2 rotateUV(vec2 uv, vec2 pivot, float rotation) {

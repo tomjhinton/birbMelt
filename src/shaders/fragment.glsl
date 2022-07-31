@@ -5,7 +5,7 @@ uniform vec3 uPosition;
 uniform vec3 uRotation;
 uniform vec2 uResolution;
 uniform sampler2D uTexture;
-
+uniform vec3 uValueA;
 uniform vec2 uMouse;
 
 
@@ -109,7 +109,7 @@ vec4 raymarch(vec3 rayDir, vec3 pos) {
 
   float warpsScale =  3. ;
 
-  vec4 bgColor = vec4(0., 0., .9, 1.);
+  vec4 bgColor = vec4(uValueA, 1.);
 
 
   vec3 color1 = vec3(uv.y, uv.x, cos(vTime) * .5 + 1.);
